@@ -41,5 +41,5 @@ make setup
 4. Start the containers :
 
 ```
-Docker compse up
+docker compse up
 ```
