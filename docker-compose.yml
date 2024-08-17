@@ -29,16 +29,16 @@ services:
     networks:
       - ci-network
   
-  # unreal-engine:
-  #   image: ghcr.io/epicgames/unreal-engine:dev
-  #   container_name: unreal-engine
-  #   volumes:
-  #     - ./project:/project
-  #   working_dir: /project
-  #   networks:
-  #     - ci-network
-  #   depends_on:
-  #     - perforce
+  unreal-engine:
+    image: ghcr.io/epicgames/unreal-engine:dev-5.4
+    container_name: unreal-engine
+    volumes:
+      - ./project:/project
+    working_dir: /project
+    networks:
+      - ci-network
+    depends_on:
+      - perforce
 
 networks:
   ci-network:
