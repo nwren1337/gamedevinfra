@@ -2,13 +2,13 @@ version: '3.8'
 
 services:
   perforce:
-    image: perforce/p4d:latest
+    build: 
+      context: ./p4d
+      dockerfile: Dockerfile
     container_name: perforce-server
     ports:
       - "1666:1666"
-    environment:
-      - P4USER=superuser
-      - P4PASSWD=yourpassword
+    env_file: "p4d.env"
     volumes:
       - ./mnt/data/depot:/perforce
       - ./mnt/data/config:/etc/perforce
@@ -24,24 +24,21 @@ services:
       - "50000:50000"
     volumes:
       - ./mnt/jenkins_home:/var/jenkins_home
-    environment:
-      - JAVA_OPTS=-Djenkins.install.runSetupWizard=false
+    env_file: "jenkins.env"
     restart: unless-stopped
     networks:
       - ci-network
   
-  unreal-engine:
-    build:
-      context: ./unreal
-      dockerfile: Dockerfile
-    container_name: unreal-engine
-    volumes:
-      - ./project:/project
-    working_dir: /project
-    networks:
-      - ci-network
-    depends_on:
-      - perforce
+  # unreal-engine:
+  #   image: ghcr.io/epicgames/unreal-engine:dev
+  #   container_name: unreal-engine
+  #   volumes:
+  #     - ./project:/project
+  #   working_dir: /project
+  #   networks:
+  #     - ci-network
+  #   depends_on:
+  #     - perforce
 
 networks:
   ci-network:
